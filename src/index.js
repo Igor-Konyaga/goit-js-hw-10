@@ -1,23 +1,32 @@
-import axios from 'axios';
+import { fetchBreeds, fetchCatByBreed } from './cat-api';
 
 const selectEl = document.querySelector('.breed-select');
+const catInfoEl = document.querySelector('.cat-info');
 
-const API_KEY =
-  'live_ ZRswS3nkdpDObPAFELcNEy6P3yBL78 aSLcLEpcvRYiOrKQPwmC2UCVnyeUFT nZbv';
-const BASE_URL = 'https://api.thecatapi.com/v1/breeds';
-
-axios.defaults.headers.common['x-api-key'] = API_KEY;
-
-axios(BASE_URL)
-  .then(resp => {
-    console.log(resp);
-    creatSelect(resp.data);
-  })
-  .catch(error => console.error(resp.status.text));
+fetchBreeds()
+  .then(({ data }) => creatSelect(data))
+  .catch(err => console.error(err));
 
 function creatSelect(arr) {
   const markup = arr.map(({ id, name }) => {
-   return `<option value=${id}>${name}</option>`;
+    return `<option value=${id}>${name}</option>`;
   });
   selectEl.insertAdjacentHTML('beforeend', markup);
+}
+
+selectEl.addEventListener('change', onBreedCat);
+
+function onBreedCat(e) {
+  const optionValue = e.target.value;
+
+  fetchCatByBreed(optionValue)
+    .then(cat => creatMarcupImg(cat.data))
+    .catch(err => console.error(err));
+}
+
+function creatMarcupImg(arr) {
+  const markup = arr.map(({url}) => {
+    return `<img src=${url} alt="cat" width="500" haight="400">`;
+  });
+  catInfoEl.innerHTML = markup;
 }
