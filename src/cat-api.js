@@ -4,7 +4,7 @@ const API_KEY =
 'live_ ZRswS3nkdpDObPAFELcNEy6P3yBL78 aSLcLEpcvRYiOrKQPwmC2UCVnyeUFT nZbv';
 const BASE_URL = 'https://api.thecatapi.com/v1/';
 
-// axios.defaults.headers.common['x-api-key'] = API_KEY;
+axios.defaults.headers.common['x-api-key'] = API_KEY;
 
  export function fetchBreeds() {
  
