@@ -1,4 +1,4 @@
-import { fetchBreeds, fetchCatByBreed } from './cat-api';
+import { fetchBreeds, fetchCatByBreed,} from './cat-api';
 
 const selectEl = document.querySelector('.breed-select');
 const catInfoEl = document.querySelector('.cat-info');
@@ -20,13 +20,15 @@ function onBreedCat(e) {
   const optionValue = e.target.value;
 
   fetchCatByBreed(optionValue)
-    .then(cat => creatMarcupImg(cat.data))
+    .then(cat => creatMarkup(cat.data))
     .catch(err => console.error(err));
+
 }
 
-function creatMarcupImg(arr) {
+function creatMarkup(arr) {
   const markup = arr.map(({url}) => {
     return `<img src=${url} alt="cat" width="500" haight="400">`;
   });
   catInfoEl.innerHTML = markup;
 }
+
